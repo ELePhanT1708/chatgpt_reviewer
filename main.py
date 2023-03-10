@@ -11,7 +11,6 @@ load_dotenv()
 # Устанавливаем API-ключ OpenAI
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
 # Функция для классификации отзыва
 def classify_review(review):
     # Подготавливаем запрос к OpenAI API
@@ -25,21 +24,14 @@ def classify_review(review):
         stop=None,
         temperature=0.7,
     )
-
-    # text = "This is some text that contains digits like 2 and 8."
-
     # Use regular expression to find digits from 1 to 10 in the text
-    digits = re.findall(r'[1-9]|10', completions.choices[0].text.strip())
-
+    digits = re.findall(r'10|[1-9]', completions.choices[0].text.strip())
     # Print the digits found in the text
     print("Digits found in the text:", digits)
-
     # Получаем оценку тональности от OpenAI API
     rating = int(completions.choices[0].text.strip())
-
     # Ограничиваем оценку от 1 до 10
     rating = max(min(rating, 10), 1)
-
     return rating
 
 
